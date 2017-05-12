@@ -1,0 +1,29 @@
+CREATE TABLE parches_sql
+(
+    nombre varchar(10),
+    CONSTRAINT pk_parches_sql PRIMARY KEY(nombre)
+);
+
+CREATE TABLE perfil
+(
+  id_perfil number(10) NOT NULL,
+  nombre varchar(250),
+  CONSTRAINT pk_perfil PRIMARY KEY (id_perfil)
+);
+
+CREATE TABLE usuario
+(
+  rut number(10) NOT NULL,
+  nombres varchar(250),
+  apellidos varchar(250),
+  password varchar(1000),
+  email varchar(250),
+  fecha_nacimiento date,
+  perfil_id number(10),
+  habilitado number(1),
+  CONSTRAINT pk_usuario PRIMARY KEY (rut),
+  CONSTRAINT fk_usuario FOREIGN KEY (perfil_id)
+      REFERENCES perfil (id_perfil)
+);
+
+INSERT INTO parches_sql (nombre) VALUES ('000.sql');

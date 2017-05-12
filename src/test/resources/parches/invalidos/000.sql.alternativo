@@ -1,0 +1,522 @@
+CREATE TABLE sql_parche (
+	nombre varchar(50)
+);
+
+CREATE TABLE gen_clasificacion_sep (
+	id_clasificacion integer NOT NULL,
+	nombre_clasificacion varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE gen_comuna (
+	id_comuna integer NOT NULL,
+	nombre_comuna varchar(50) NOT NULL,
+	deprov_id integer NOT NULL
+)
+;
+
+CREATE TABLE gen_deprov (
+	id_deprov integer NOT NULL,
+	nombre_deprov varchar(50) NOT NULL,
+	region_id integer NOT NULL
+)
+;
+
+CREATE TABLE gen_valor_lista (
+	id_valor bigserial NOT NULL,
+	valor varchar(50),
+	estado_valor_id smallint,
+	lista_desplegable_id bigint
+);
+
+CREATE TABLE gen_establecimiento (
+	rbd integer NOT NULL,
+	nombre_establecimiento varchar(255) NOT NULL,
+	comuna_id integer NOT NULL,
+	ruralidad boolean NOT NULL,
+	clasificacion_id integer,
+	estado_id integer,
+	mail varchar(50),
+	fono varchar(50),
+	direccion varchar(250),
+	dependencias varchar(100),
+	sostenedor_id integer
+)
+;
+
+CREATE TABLE gen_estado_estable_asociado (
+	id_estado integer NOT NULL,
+	nombre_estado varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE gen_estado_perfil (
+	id_estado integer NOT NULL,
+	nombre_estado varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE gen_estado_red (
+	id_estado integer NOT NULL,
+	nombre_estado varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE gen_estado_super_estable (
+	id_estado integer NOT NULL,
+	nombre_estado varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE gen_estado_super_red (
+	id_estado integer NOT NULL,
+	nombre_estado varchar(50)
+)
+;
+
+CREATE TABLE gen_lista_desplegable (
+	id_lista_desplegable bigserial NOT NULL NOT NULL,
+	nombre_lista varchar(50)
+);
+
+CREATE TABLE estado_valor_lista (
+	id_estado smallint NOT NULL,
+	nombre_estado varchar(50)
+)
+;
+
+CREATE TABLE gen_nivel (
+	id_nivel integer NOT NULL,
+	nombre_nivel varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE gen_region (
+	id_region integer NOT NULL,
+	nombre_region varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE per_caso_especial (
+	id_caso_especial bigserial NOT NULL,
+	fecha_inicio timestamp NOT NULL,
+	fecha_fin timestamp NOT NULL,
+	deprov_id integer,
+	region_id integer,
+	periodo_proceso_id bigint NOT NULL
+)
+;
+
+CREATE TABLE per_feriado (
+	id_feriado bigserial NOT NULL,
+	fecha_feriado timestamp NOT NULL,
+	descripcion_feriado varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE per_periodo_proceso (
+	id_periodo_proceso bigserial NOT NULL,
+	anio_proceso integer NOT NULL,
+	fecha_inicio timestamp,
+	fecha_fin timestamp,
+	tipo_proceso_id bigint NOT NULL,
+	tiene_caso_especial boolean
+)
+;
+
+CREATE TABLE per_tipo_proceso (
+	id_tipo bigint NOT NULL,
+	nombre_proceso varchar(100) NOT NULL
+)
+;
+
+CREATE TABLE plan_establecimiento_asociado (
+	red_id bigint NOT NULL,
+	rbd integer NOT NULL,
+	estado_id integer NOT NULL
+)
+;
+
+CREATE TABLE plan_red (
+	id_red bigserial NOT NULL,
+	fecha_creacion timestamp NOT NULL,
+	nombre_red varchar(50) NOT NULL,
+	estado_id integer NOT NULL,
+	periodo_proceso_id bigint NOT NULL,
+	tipo_red_id integer NOT NULL
+)
+;
+
+CREATE TABLE plan_supervisor_establecimiento (
+	rbd integer NOT NULL,
+	usuario_id bigint NOT NULL,
+	estado_id integer NOT NULL,
+	periodo_proceso_id bigint NOT NULL
+)
+;
+
+CREATE TABLE plan_supervisor_por_red (
+	red_id bigint NOT NULL,
+	usuario_id bigint NOT NULL,
+	estado_id integer NOT NULL
+)
+;
+
+CREATE TABLE user_perfil (
+	id_perfil bigserial NOT NULL,
+	nombre_perfil varchar(50) NOT NULL,
+	descripcion_perfil varchar(50) NOT NULL,
+	nivel_id integer NOT NULL,
+	estado_id integer NOT NULL
+)
+;
+
+CREATE TABLE user_permiso_por_perfil (
+	accion_ver boolean,
+	accion_editar boolean,
+	submodulo_id integer NOT NULL,
+	perfil_id bigint NOT NULL
+)
+;
+
+CREATE TABLE user_reemplazando (
+	id_reemplazando bigserial NOT NULL,
+	id_usuario_reemplazado bigint NOT NULL,
+	periodo_desde timestamp NOT NULL,
+	periodo_hasta timestamp NOT NULL,
+	usuario_id bigint NOT NULL
+)
+;
+
+CREATE TABLE user_submodulo (
+	id_submodulo integer NOT NULL,
+	nombre_submodulo varchar(50) NOT NULL
+)
+;
+
+CREATE TABLE user_usuario (
+	id_usuario bigserial NOT NULL,
+	rut integer NOT NULL,
+	nombre_usuario varchar(50) NOT NULL,
+	correo_usuario varchar(50) NOT NULL,
+	nombre_persona varchar(50) NOT NULL,
+	apellido_paterno varchar(50) NOT NULL,
+	apellido_materno varchar(50) NOT NULL,
+	perfil_id bigint NOT NULL,
+	deprov_usuario_id integer,
+	es_suplente boolean,
+	reemplazante_id bigint,
+	estado_usuario boolean,
+	estado_suplencia boolean,
+	region_usuario_id integer
+)
+;
+
+CREATE TABLE gen_estado_establecimiento (
+ id_estado integer NOT NULL,
+	nombre_estado varchar(50)
+)
+;
+
+ALTER TABLE estado_valor_lista ADD CONSTRAINT PK_estado_valor_lista
+	PRIMARY KEY (id_estado)
+;
+
+
+ALTER TABLE gen_clasificacion_sep ADD CONSTRAINT PK_gen_clasificacion_sep
+	PRIMARY KEY (id_clasificacion)
+;
+
+
+ALTER TABLE gen_comuna ADD CONSTRAINT PK_gen_provincia
+	PRIMARY KEY (id_comuna)
+;
+
+
+ALTER TABLE gen_deprov ADD CONSTRAINT PK_gen_deprov
+	PRIMARY KEY (id_deprov)
+;
+
+
+ALTER TABLE gen_establecimiento ADD CONSTRAINT PK_gen_establecimiento
+	PRIMARY KEY (rbd)
+;
+
+
+ALTER TABLE gen_estado_estable_asociado ADD CONSTRAINT PK_gen_estado
+	PRIMARY KEY (id_estado)
+;
+
+
+ALTER TABLE gen_estado_perfil ADD CONSTRAINT PK_gen_estado_perfil
+	PRIMARY KEY (id_estado)
+;
+
+
+ALTER TABLE gen_estado_red ADD CONSTRAINT PK_gen_estado_red
+	PRIMARY KEY (id_estado)
+;
+
+
+ALTER TABLE gen_estado_super_estable ADD CONSTRAINT PK_gen_estado_super_estable
+	PRIMARY KEY (id_estado)
+;
+
+
+ALTER TABLE gen_estado_super_red ADD CONSTRAINT PK_gen_estado_super_red
+	PRIMARY KEY (id_estado)
+;
+
+ALTER TABLE gen_lista_desplegable ADD CONSTRAINT PK_gen_lista_desplegable
+	PRIMARY KEY (id_lista_desplegable)
+;
+
+
+ALTER TABLE gen_nivel ADD CONSTRAINT PK_gen_nivel
+	PRIMARY KEY (id_nivel)
+;
+
+
+ALTER TABLE gen_region ADD CONSTRAINT PK_gen_region
+	PRIMARY KEY (id_region)
+;
+
+
+ALTER TABLE gen_valor_lista ADD CONSTRAINT PK_gen_valor_lista
+	PRIMARY KEY (id_valor)
+;
+
+
+ALTER TABLE per_caso_especial ADD CONSTRAINT PK_per_caso_especial
+	PRIMARY KEY (id_caso_especial)
+;
+
+
+ALTER TABLE per_feriado ADD CONSTRAINT PK_per_feriado
+	PRIMARY KEY (id_feriado)
+;
+
+
+ALTER TABLE per_periodo_proceso ADD CONSTRAINT PK_per_periodo_proceso
+	PRIMARY KEY (id_periodo_proceso)
+;
+
+
+ALTER TABLE per_tipo_proceso ADD CONSTRAINT PK_per_tipo_proceso
+	PRIMARY KEY (id_tipo)
+;
+
+
+ALTER TABLE plan_establecimiento_asociado ADD CONSTRAINT PK_plan_establecimiento_asociado
+	PRIMARY KEY (red_id, rbd)
+;
+
+
+ALTER TABLE plan_red ADD CONSTRAINT PK_plan_red
+	PRIMARY KEY (id_red)
+;
+
+
+ALTER TABLE plan_supervisor_establecimiento ADD CONSTRAINT PK_plan_supervisor_establecimiento
+	PRIMARY KEY (rbd, usuario_id)
+;
+
+
+ALTER TABLE plan_supervisor_por_red ADD CONSTRAINT PK_plan_supervisor_por_red
+	PRIMARY KEY (red_id, usuario_id)
+;
+
+
+ALTER TABLE user_perfil ADD CONSTRAINT PK_perfil
+	PRIMARY KEY (id_perfil)
+;
+
+
+ALTER TABLE user_permiso_por_perfil ADD CONSTRAINT PK_user_permiso
+	PRIMARY KEY (submodulo_id, perfil_id)
+;
+
+ALTER TABLE user_reemplazando ADD CONSTRAINT PK_user_reemplazando
+PRIMARY KEY (id_reemplazando)
+;
+
+ALTER TABLE user_submodulo ADD CONSTRAINT PK_user_submodulo
+	PRIMARY KEY (id_submodulo)
+;
+
+
+ALTER TABLE user_usuario ADD CONSTRAINT PK_user_usuario
+	PRIMARY KEY (id_usuario)
+;
+
+
+
+ALTER TABLE user_usuario
+	ADD CONSTRAINT UQ_user_usuario_rut UNIQUE (rut)
+;
+ALTER TABLE user_usuario
+	ADD CONSTRAINT UQ_user_usuario_nombre_usuario UNIQUE (nombre_usuario)
+;
+
+ALTER TABLE gen_comuna ADD CONSTRAINT FK_gen_comuna_gen_deprov
+	FOREIGN KEY (deprov_id) REFERENCES gen_deprov (id_deprov)
+;
+
+ALTER TABLE gen_deprov ADD CONSTRAINT FK_gen_deprov_gen_region
+	FOREIGN KEY (region_id) REFERENCES gen_region (id_region)
+;
+
+ALTER TABLE gen_establecimiento ADD CONSTRAINT FK_gen_establecimiento_gen_clasificacion_sep
+	FOREIGN KEY (clasificacion_id) REFERENCES gen_clasificacion_sep (id_clasificacion)
+;
+
+ALTER TABLE gen_establecimiento ADD CONSTRAINT FK_gen_establecimiento_gen_comuna
+	FOREIGN KEY (comuna_id) REFERENCES gen_comuna (id_comuna)
+;
+
+ALTER TABLE gen_valor_lista ADD CONSTRAINT FK_gen_valor_lista_estado_valor_lista
+	FOREIGN KEY (estado_valor_id) REFERENCES estado_valor_lista (id_estado)
+;
+
+ALTER TABLE gen_valor_lista ADD CONSTRAINT FK_gen_valor_lista_gen_lista_desplegable
+	FOREIGN KEY (lista_desplegable_id) REFERENCES gen_lista_desplegable (id_lista_desplegable)
+;
+
+ALTER TABLE per_caso_especial ADD CONSTRAINT FK_per_caso_especial_gen_deprov
+	FOREIGN KEY (deprov_id) REFERENCES gen_deprov (id_deprov)
+;
+
+ALTER TABLE per_caso_especial ADD CONSTRAINT FK_per_caso_especial_per_periodo_proceso
+	FOREIGN KEY (periodo_proceso_id) REFERENCES per_periodo_proceso (id_periodo_proceso)
+;
+
+ALTER TABLE per_caso_especial ADD CONSTRAINT FK_per_caso_especial_gen_region
+	FOREIGN KEY (region_id) REFERENCES gen_region (id_region)
+;
+
+ALTER TABLE per_periodo_proceso ADD CONSTRAINT FK_per_periodo_proceso_per_tipo_proceso
+	FOREIGN KEY (tipo_proceso_id) REFERENCES per_tipo_proceso (id_tipo)
+;
+
+ALTER TABLE plan_establecimiento_asociado ADD CONSTRAINT FK_plan_establecimiento_asociado_gen_establecimiento
+	FOREIGN KEY (rbd) REFERENCES gen_establecimiento (rbd)
+;
+
+ALTER TABLE plan_establecimiento_asociado ADD CONSTRAINT FK_plan_establecimiento_asociado_gen_estado
+	FOREIGN KEY (estado_id) REFERENCES gen_estado_estable_asociado (id_estado)
+;
+
+ALTER TABLE plan_establecimiento_asociado ADD CONSTRAINT FK_plan_establecimiento_asociado_plan_red
+	FOREIGN KEY (red_id) REFERENCES plan_red (id_red)
+;
+
+ALTER TABLE plan_red ADD CONSTRAINT FK_plan_red_gen_estado_red
+	FOREIGN KEY (estado_id) REFERENCES gen_estado_red (id_estado)
+;
+
+ALTER TABLE plan_red ADD CONSTRAINT FK_plan_red_tipo_red
+	FOREIGN KEY (tipo_red_id) REFERENCES gen_valor_lista (id_valor)
+;
+
+ALTER TABLE plan_red ADD CONSTRAINT FK_plan_red_per_periodo_proceso
+	FOREIGN KEY (periodo_proceso_id) REFERENCES per_periodo_proceso (id_periodo_proceso)
+;
+
+ALTER TABLE plan_supervisor_establecimiento ADD CONSTRAINT FK_plan_supervisor_establecimiento_gen_establecimiento
+	FOREIGN KEY (rbd) REFERENCES gen_establecimiento (rbd)
+;
+
+ALTER TABLE plan_supervisor_establecimiento ADD CONSTRAINT FK_plan_supervisor_establecimiento_gen_estado_super_estable
+	FOREIGN KEY (estado_id) REFERENCES gen_estado_super_estable (id_estado)
+;
+
+ALTER TABLE plan_supervisor_establecimiento ADD CONSTRAINT FK_plan_supervisor_establecimiento_per_periodo_proceso
+	FOREIGN KEY (periodo_proceso_id) REFERENCES per_periodo_proceso (id_periodo_proceso)
+;
+
+ALTER TABLE plan_supervisor_establecimiento ADD CONSTRAINT FK_plan_supervisor_establecimiento_user_usuario
+	FOREIGN KEY (usuario_id) REFERENCES user_usuario (id_usuario)
+;
+
+ALTER TABLE plan_supervisor_por_red ADD CONSTRAINT FK_plan_supervisor_asociado_plan_red
+	FOREIGN KEY (red_id) REFERENCES plan_red (id_red)
+;
+
+ALTER TABLE plan_supervisor_por_red ADD CONSTRAINT FK_plan_supervisor_por_red_gen_estado_super_red
+	FOREIGN KEY (estado_id) REFERENCES gen_estado_super_red (id_estado)
+;
+
+ALTER TABLE plan_supervisor_por_red ADD CONSTRAINT FK_plan_supervisor_porRed_user_usuario
+	FOREIGN KEY (usuario_id) REFERENCES user_usuario (id_usuario)
+;
+
+ALTER TABLE user_perfil ADD CONSTRAINT FK_user_perfil_gen_estado_perfil
+	FOREIGN KEY (estado_id) REFERENCES gen_estado_perfil (id_estado)
+;
+
+ALTER TABLE user_perfil ADD CONSTRAINT FK_user_perfil_gen_nivel
+	FOREIGN KEY (nivel_id) REFERENCES gen_nivel (id_nivel)
+;
+
+ALTER TABLE user_permiso_por_perfil ADD CONSTRAINT FK_user_permiso_user_perfil
+	FOREIGN KEY (perfil_id) REFERENCES user_perfil (id_perfil)
+;
+
+ALTER TABLE user_permiso_por_perfil ADD CONSTRAINT FK_user_permiso_user_submodulo
+	FOREIGN KEY (submodulo_id) REFERENCES user_submodulo (id_submodulo)
+;
+
+ALTER TABLE user_reemplazando ADD CONSTRAINT FK_user_reemplazando_user_usuario
+	FOREIGN KEY (usuario_id) REFERENCES user_usuario (id_usuario)
+;
+
+ALTER TABLE user_usuario ADD CONSTRAINT FK_user_usuario_gen_deprov
+	FOREIGN KEY (deprov_usuario_id) REFERENCES gen_deprov (id_deprov)
+;
+
+ALTER TABLE user_usuario ADD CONSTRAINT FK_user_usuario_gen_region
+	FOREIGN KEY (region_usuario_id) REFERENCES gen_region (id_region)
+;
+
+ALTER TABLE user_usuario ADD CONSTRAINT FK_user_usuario_user_perfil
+	FOREIGN KEY (perfil_id) REFERENCES user_perfil (id_perfil)
+;
+
+ALTER TABLE gen_estado_establecimiento ADD CONSTRAINT PK_gen_estado_establecimiento
+	PRIMARY KEY (id_estado)
+;
+
+ALTER TABLE gen_establecimiento ADD CONSTRAINT FK_gen_establecimiento_gen_estado_establecimiento
+	FOREIGN KEY (estado_id) REFERENCES gen_estado_establecimiento (id_estado)
+;
+
+----eliminar al llegar los nuevos datos.
+INSERT INTO per_tipo_proceso (id_tipo, nombre_proceso) VALUES (1, 'Plan Regional y Plan Provincial');
+INSERT INTO per_tipo_proceso (id_tipo, nombre_proceso) VALUES (2, 'Conformación de redes');
+INSERT INTO per_tipo_proceso (id_tipo, nombre_proceso) VALUES (3, 'Asignación de supervisores');
+INSERT INTO per_tipo_proceso (id_tipo, nombre_proceso) VALUES (4, 'Planificación de Objetivos');
+INSERT INTO per_tipo_proceso (id_tipo, nombre_proceso) VALUES (5, 'Planificación de Sesiones');
+INSERT INTO per_tipo_proceso (id_tipo, nombre_proceso) VALUES (6, 'Implementación del apoyo');
+INSERT INTO per_tipo_proceso (id_tipo, nombre_proceso) VALUES (7, 'Autoevaluación del apoyo');
+
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2014, '2014-01-24 00:00:00', '2014-02-28 00:00:00', 1, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2014, '2014-02-24 00:00:00', '2014-03-28 00:00:00', 2, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2014, '2014-03-24 00:00:00', '2014-04-28 00:00:00', 3, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2014, '2014-04-24 00:00:00', '2014-05-28 00:00:00', 4, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2014, '2014-05-24 00:00:00', '2014-06-28 00:00:00', 5, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2014, '2014-07-01 00:00:00', '2014-07-28 00:00:00', 6, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2014, '2014-08-01 00:00:00', '2014-12-01 00:00:00', 7, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2015, '2015-01-24 00:00:00', '2015-07-28 00:00:00', 1, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2015, '2015-01-24 00:00:00', '2016-11-28 00:00:00', 2, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2015, '2015-01-24 00:00:00', '2015-12-31 00:00:00', 3, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2015, '2015-01-24 00:00:00', '2015-07-28 00:00:00', 4, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2015, '2015-01-24 00:00:00', '2015-07-28 00:00:00', 5, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2015, '2015-08-01 00:00:00', '2015-12-31 00:00:00', 6, false);
+INSERT INTO per_periodo_proceso (anio_proceso, fecha_inicio, fecha_fin, tipo_proceso_id, tiene_caso_especial) VALUES (2015, '2015-10-24 00:00:00', '2016-01-28 00:00:00', 7, false);
+
+-- niveles
+INSERT INTO gen_nivel (id_nivel, nombre_nivel) VALUES (1, 'Nacional');
+INSERT INTO gen_nivel (id_nivel, nombre_nivel) VALUES (2, 'Regional');
+INSERT INTO gen_nivel (id_nivel, nombre_nivel) VALUES (3, 'Provincial');
+
+INSERT INTO sql_parche (nombre) VALUES ('000.sql');
